@@ -365,32 +365,61 @@
             }
         }
         
-        .tab-content {
+        .popup {
             display: none;
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            background-color: var(--cor-secundaria);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
         }
         
-        .tab-content.active {
+        .popup.active {
             display: block;
         }
         
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin-top: 2rem;
+        .popup h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
         
-        .tab {
-            padding: 1rem;
-            cursor: pointer;
-            background-color: var(--cor-secundaria);
-            color: var(--cor-texto);
-            margin: 0 0.5rem;
+        .popup p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .popup form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .popup form label {
+            margin-bottom: 0.5rem;
+        }
+        
+        .popup form input,
+        .popup form textarea {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border: none;
             border-radius: 4px;
+        }
+        
+        .popup form button {
+            padding: 0.5rem;
+            background-color: var(--cor-destaque);
+            color: var(--cor-texto-inverso);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
             transition: background-color 0.3s ease;
         }
         
-        .tab:hover {
-            background-color: var(--cor-destaque);
+        .popup form button:hover {
+            background-color: #d9b060;
         }
     </style>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
@@ -403,14 +432,14 @@
             <i class="fas fa-bars"></i>
         </button>
         <nav>
-            <a href="#inicio">Início</a>
-            <a href="#modelos">Modelos</a>
-            <a href="#sobre">Sobre</a>
-            <a href="#contato">Contato</a>
-            <a href="#termos">Termos</a>
-            <a href="#endereco">Endereço</a>
-            <a href="#orcamentos">Orçamentos</a>
-            <a href="#tutoriais">Tutoriais</a>
+            <a href="#inicio" id="inicio-link"><i class="fas fa-home"></i> Início</a>
+            <a href="#modelos" id="modelos-link"><i class="fas fa-cube"></i> Modelos</a>
+            <a href="#sobre" id="sobre-link"><i class="fas fa-info-circle"></i> Sobre</a>
+            <a href="#contato" id="contato-link"><i class="fas fa-envelope"></i> Contato</a>
+            <a href="#termos" id="termos-link"><i class="fas fa-file-alt"></i> Termos</a>
+            <a href="#endereco" id="endereco-link"><i class="fas fa-map-marker-alt"></i> Endereço</a>
+            <a href="#orcamentos" id="orcamentos-link"><i class="fas fa-dollar-sign"></i> Orçamentos</a>
+            <a href="#tutoriais" id="tutoriais-link"><i class="fas fa-book"></i> Tutoriais</a>
         </nav>
     </header>
 
@@ -438,20 +467,45 @@
             </div>
         </section>
         
-        <div class="tabs">
-            <div class="tab" data-tab="tab1">Tab 1</div>
-            <div class="tab" data-tab="tab2">Tab 2</div>
-            <div class="tab" data-tab="tab3">Tab 3</div>
+        <section id="sobre" class="fade-in">
+            <h2>Sobre Nós</h2>
+            <p>Somos uma empresa dedicada a fornecer modelos 3D de alta qualidade para diversos setores. Nossa missão é trazer inovação e sofisticação para seus projetos.</p>
+        </section>
+        
+        <div class="popup" id="contato-popup">
+            <h2>Contato</h2>
+            <form>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="mensagem">Mensagem:</label>
+                <textarea id="mensagem" name="mensagem" required></textarea>
+                
+                <button type="submit">Enviar</button>
+            </form>
         </div>
         
-        <div id="tab1" class="tab-content">
-            <p>Conteúdo da Tab 1</p>
+        <div class="popup" id="termos-popup">
+            <h2>Termos</h2>
+            <p>Leia nossos termos e condições para entender melhor nossos serviços e políticas.</p>
         </div>
-        <div id="tab2" class="tab-content">
-            <p>Conteúdo da Tab 2</p>
+        
+        <div class="popup" id="endereco-popup">
+            <h2>Endereço</h2>
+            <p>Visite-nos em nosso escritório localizado na Rua Exemplo, 123, Cidade, País.</p>
         </div>
-        <div id="tab3" class="tab-content">
-            <p>Conteúdo da Tab 3</p>
+        
+        <div class="popup" id="orcamentos-popup">
+            <h2>Orçamentos</h2>
+            <p>Solicite um orçamento personalizado para seu projeto. Estamos prontos para ajudar!</p>
+        </div>
+        
+        <div class="popup" id="tutoriais-popup">
+            <h2>Tutoriais</h2>
+            <p>Acesse nossos tutoriais para aprender a utilizar nossos modelos 3D de forma eficiente.</p>
         </div>
     </div>
 
@@ -467,6 +521,16 @@
             const modelos = document.querySelectorAll('.modelo');
             const menuToggle = document.querySelector('.menu-toggle');
             const nav = document.querySelector('nav');
+            const contatoLink = document.getElementById('contato-link');
+            const contatoPopup = document.getElementById('contato-popup');
+            const termosLink = document.getElementById('termos-link');
+            const termosPopup = document.getElementById('termos-popup');
+            const enderecoLink = document.getElementById('endereco-link');
+            const enderecoPopup = document.getElementById('endereco-popup');
+            const orcamentosLink = document.getElementById('orcamentos-link');
+            const orcamentosPopup = document.getElementById('orcamentos-popup');
+            const tutoriaisLink = document.getElementById('tutoriais-link');
+            const tutoriaisPopup = document.getElementById('tutoriais-popup');
             
             const observador = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -483,20 +547,45 @@
             menuToggle.addEventListener('click', () => {
                 nav.classList.toggle('active');
             });
-            
-            const tabs = document.querySelectorAll('.tab');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const target = document.getElementById(tab.dataset.tab);
-                    
-                    tabContents.forEach(content => {
-                        content.classList.remove('active');
-                    });
-                    
-                    target.classList.add('active');
-                });
+
+            contatoLink.addEventListener('mouseover', () => {
+                contatoPopup.classList.add('active');
+            });
+
+            contatoLink.addEventListener('mouseout', () => {
+                contatoPopup.classList.remove('active');
+            });
+
+            termosLink.addEventListener('mouseover', () => {
+                termosPopup.classList.add('active');
+            });
+
+            termosLink.addEventListener('mouseout', () => {
+                termosPopup.classList.remove('active');
+            });
+
+            enderecoLink.addEventListener('mouseover', () => {
+                enderecoPopup.classList.add('active');
+            });
+
+            enderecoLink.addEventListener('mouseout', () => {
+                enderecoPopup.classList.remove('active');
+            });
+
+            orcamentosLink.addEventListener('mouseover', () => {
+                orcamentosPopup.classList.add('active');
+            });
+
+            orcamentosLink.addEventListener('mouseout', () => {
+                orcamentosPopup.classList.remove('active');
+            });
+
+            tutoriaisLink.addEventListener('mouseover', () => {
+                tutoriaisPopup.classList.add('active');
+            });
+
+            tutoriaisLink.addEventListener('mouseout', () => {
+                tutoriaisPopup.classList.remove('active');
             });
         });
     </script>
