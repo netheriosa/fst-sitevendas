@@ -111,6 +111,15 @@
             transform: translateY(-2px);
         }
         
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--cor-texto);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -262,8 +271,18 @@
         }
         
         @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
             nav {
+                display: none;
                 flex-direction: column;
+                width: 100%;
+            }
+            
+            nav.active {
+                display: flex;
             }
             
             nav a {
@@ -325,6 +344,9 @@
     <div class="background-decor"></div>
     
     <header>
+        <button class="menu-toggle" aria-label="Abrir menu">
+            <i class="fas fa-bars"></i>
+        </button>
         <nav>
             <a href="#inicio">Início</a>
             <a href="#modelos">Modelos</a>
@@ -372,6 +394,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const modelos = document.querySelectorAll('.modelo');
+            const menuToggle = document.querySelector('.menu-toggle');
+            const nav = document.querySelector('nav');
             
             const observador = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -383,6 +407,10 @@
             
             modelos.forEach(modelo => {
                 observador.observe(modelo);
+            });
+
+            menuToggle.addEventListener('click', () => {
+                nav.classList.toggle('active');
             });
         });
     </script>
