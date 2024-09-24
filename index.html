@@ -337,6 +337,61 @@
                 font-size: 0.8rem;
             }
         }
+        
+        /* Animações adicionais */
+        .fade-in {
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .slide-in {
+            animation: slideIn 1s ease-in-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .tab {
+            padding: 1rem;
+            cursor: pointer;
+            background-color: var(--cor-secundaria);
+            color: var(--cor-texto);
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .tab:hover {
+            background-color: var(--cor-destaque);
+        }
     </style>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
@@ -360,13 +415,13 @@
     </header>
 
     <div class="container">
-        <section id="inicio">
+        <section id="inicio" class="fade-in">
             <h1>Modelos 3D Exclusivos</h1>
             <p>Descubra nossa coleção de modelos 3D refinados, onde a simplicidade encontra a sofisticação. Cada peça é cuidadosamente projetada para elevar seus projetos ao próximo nível.</p>
             <a href="#modelos" class="cta-button">Explorar Modelos</a>
         </section>
 
-        <section id="modelos">
+        <section id="modelos" class="slide-in">
             <div class="modelo">
                 <div class="modelo-viewer" style="background-image: url('./modelo1.jpg');"></div>
                 <h2>Usina Nuclear - Pacote</h2>
@@ -382,6 +437,22 @@
                 <h2>Meu 1° Modelo Profissional</h2>
             </div>
         </section>
+        
+        <div class="tabs">
+            <div class="tab" data-tab="tab1">Tab 1</div>
+            <div class="tab" data-tab="tab2">Tab 2</div>
+            <div class="tab" data-tab="tab3">Tab 3</div>
+        </div>
+        
+        <div id="tab1" class="tab-content">
+            <p>Conteúdo da Tab 1</p>
+        </div>
+        <div id="tab2" class="tab-content">
+            <p>Conteúdo da Tab 2</p>
+        </div>
+        <div id="tab3" class="tab-content">
+            <p>Conteúdo da Tab 3</p>
+        </div>
     </div>
 
     <footer>
@@ -411,6 +482,21 @@
 
             menuToggle.addEventListener('click', () => {
                 nav.classList.toggle('active');
+            });
+            
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = document.getElementById(tab.dataset.tab);
+                    
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    target.classList.add('active');
+                });
             });
         });
     </script>
